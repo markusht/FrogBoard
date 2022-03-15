@@ -1,10 +1,12 @@
 # Introduction
 FrogBoard is a work-in-progress CLI chess engine.
 
-# Selected Features
+# Architecture
 
-## Board Representation
+## Selected Features
+
+### Board Representation
 + Bitboards with Little-Endian Rank-File Mapping (LERF)
 + Magic Bitboards
-## Search
+### Search
 ** To Be Determined **
