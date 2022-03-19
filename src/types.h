@@ -1,6 +1,8 @@
 #ifndef TYPES_H_INCLUDED
 #define TYPES_H_INCLUDED
-typedef uint64_t Bitboard;
+
+#define U32 unsigned long
+#define U64 unsigned long long
 
 constexpr int MAX_MOVES = 256;
 constexpr int MAX_PLY = 246;
