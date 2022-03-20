@@ -53,16 +53,39 @@ enum CastlingRight {
 	CASTLING_RIGHT_NB = 16
 };
 
+enum Value : int {
+	VALUE_ZERO      = 0,
+	VALUE_DRAW      = 0,
+	VALUE_KNOWN_WIN = 10000,
+	VALUE_MATE      = 32000,
+	VALUE_INFINITE  = 32001,
+	VALUE_NONE      = 32002,
+
+	VALUE_TB_IN_MAX_PLY = VALUE_MATE - 2 * MAX_PLY,
+	VALUE_TV_LOSS_IN_MAX_PLY = - VALUE_TB_WIN_IN_MAX_PLY,
+	VALUE_MATE_IN_MAX_PLY = VALUE_MATE - MAX_PLY,
+	VALUE_MATED_IN_MAX_PLY = -VALUE_MATE_IN_MAX_PLY,
+
+	PawnValueMg   = 126, PawnValueEg    = 208,
+	KnightValueMg = 781,  KnightValueEg = 854,
+	BishopValueMg = 825,  BishopValueEg = 915,
+	RookValueMg   = 1276, RookValueEg   = 1380,
+	QueenValueMg  = 2538, QueenValueEg  = 2682,
+
+	MidgameLimit  = 15258, EndgameLimit = 3915
+};
+
+
 enum PieceType {
 	NO_PIECE_TYPE, PAWN, KNIGHT, BISHOP, ROOK, QUEEN, KING,
-	ALL_PIECES = 0,
-	PIECE_TYPE_NB = 8
+	ALL_PIECES = -1,
+	PIECE_TYPE_NB = 7
 };
 
 enum Piece {
 	NO_PEACE,
-	W_PAWN = 1, W_KNIGHT, W_BISHOP, W_ROOK, W_QUEEN, W_KING,
-	B_PABN = 9, B_KNIGHT, B_BISHOP, B_ROOK, B_QUEEN, B_KING,
+	W_PAWN = 0, W_KNIGHT, W_BISHOP, W_ROOK, W_QUEEN, W_KING,
+	B_PABN = 8, B_KNIGHT, B_BISHOP, B_ROOK, B_QUEEN, B_KING,
 	PIECE_NB = 16
 };
 
