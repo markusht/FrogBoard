@@ -254,7 +254,7 @@ inline U64 Position::material_key() const {
 }
 
 inline Value Position::non_pawn_material(Color c) const {
-	return m_st-ZnonPawnMaterial[c];
+	return m_st->nonPawnMaterial[c];
 }
 
 inline Value Position::non_pawn_material() const {

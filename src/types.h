@@ -131,5 +131,8 @@ constexpr Piece make_piece(Color c, PieceType pt) {
 	return Piece((c << 3) + pt);
 }
 
-#endif
+constexpr Color color_of(Piece pc) {
+	return Color(pc >> 3);
+}
 
+#endif
