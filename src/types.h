@@ -4,6 +4,12 @@
 #define U32 unsigned long
 #define U64 unsigned long long
 
+#include <cassert>
+#include <cctype>
+#include <cstdint>
+#include <cstdlib>
+#include <algorithm>
+
 constexpr int MAX_MOVES = 256;
 constexpr int MAX_PLY = 246;
 
@@ -61,8 +67,8 @@ enum Value : int {
 	VALUE_INFINITE  = 32001,
 	VALUE_NONE      = 32002,
 
-	VALUE_TB_IN_MAX_PLY = VALUE_MATE - 2 * MAX_PLY,
-	VALUE_TV_LOSS_IN_MAX_PLY = - VALUE_TB_WIN_IN_MAX_PLY,
+	VALUE_TB_WIN_IN_MAX_PLY = VALUE_MATE - 2 * MAX_PLY,
+	VALUE_TB_LOSS_IN_MAX_PLY = - VALUE_TB_WIN_IN_MAX_PLY,
 	VALUE_MATE_IN_MAX_PLY = VALUE_MATE - MAX_PLY,
 	VALUE_MATED_IN_MAX_PLY = -VALUE_MATE_IN_MAX_PLY,
 
@@ -83,7 +89,7 @@ enum PieceType {
 };
 
 enum Piece {
-	NO_PEACE,
+	NO_PIECE,
 	W_PAWN = 0, W_KNIGHT, W_BISHOP, W_ROOK, W_QUEEN, W_KING,
 	B_PABN = 8, B_KNIGHT, B_BISHOP, B_ROOK, B_QUEEN, B_KING,
 	PIECE_NB = 16
@@ -131,8 +137,58 @@ constexpr Piece make_piece(Color c, PieceType pt) {
 	return Piece((c << 3) + pt);
 }
 
-constexpr Color color_of(Piece pc) {
+inline Color color_of(Piece pc) {
+	assert(pc != NO_PIECE);
 	return Color(pc >> 3);
 }
 
+constexpr PieceType type_of(Piece pc) {
+	return PieceType(pc & 7);
+}
+
+constexpr bool is_ok(Square s) {
+	return s >= SQ_A1 && s <= SQ_H8;
+}
+
+constexpr File file_of(Square s) {
+	return File(s & 7);
+}
+
+constexpr Rank rank_of(Square s) {
+	return Rank(s >> 3);
+}
+
+constexpr Direction pawn_push(Color c) {
+	return c == WHITE ? NORTH : SOUTH;
+}
+
+constexpr Square from_sq(Move m) {
+	return Square((m >> 6) & 0x3F);
+}
+
+constexpr Square to_sq(Move m) {
+	return Square(m & 0x3F);
+}
+
+constexpr int from_to(Move m) {
+	return m & 0xFFF;
+}
+
+constexpr MoveType type_of(Move m) {
+	return MoveType(m & (3 << 14));
+}
+
+constexpr PieceType promotion_type(Move m) {
+	return PieceType(((m >> 12) & 3) + KNIGHT);
+}
+
+constexpr Move make_move(Square from, Square to) {
+	return Move((from << 6) + to);
+}
+
+constexpr bool is_ok(Move m) {
+	return from_sq(m) != to_sq(m); // Catch MOVE_NULL and MOVE_NONE
+}
+
 #endif
+
